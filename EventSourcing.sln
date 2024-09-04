@@ -5,6 +5,10 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{AEE4D5A2-5569-4890-AC0A-F8962573E422}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppHost", "AppHost\AppHost.csproj", "{17C0B26C-7F57-47D6-8F12-8EE623DD811A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{39FA91F0-5284-4412-9CA4-CF351A5E05FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{AEE4D5A2-5569-4890-AC0A-F8962573E422}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEE4D5A2-5569-4890-AC0A-F8962573E422}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEE4D5A2-5569-4890-AC0A-F8962573E422}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17C0B26C-7F57-47D6-8F12-8EE623DD811A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17C0B26C-7F57-47D6-8F12-8EE623DD811A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17C0B26C-7F57-47D6-8F12-8EE623DD811A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17C0B26C-7F57-47D6-8F12-8EE623DD811A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39FA91F0-5284-4412-9CA4-CF351A5E05FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39FA91F0-5284-4412-9CA4-CF351A5E05FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39FA91F0-5284-4412-9CA4-CF351A5E05FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39FA91F0-5284-4412-9CA4-CF351A5E05FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

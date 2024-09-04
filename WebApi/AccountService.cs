@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json;
 using EventStore.Client;
 
@@ -29,6 +30,35 @@ public class AccountService(EventStoreClient client)
         );
         
         return account;
+    }
+
+    public async Task<Account> GetAccount(Guid id, CancellationToken cancellationToken)
+    {
+        // var events = Enumerable.Range(0, 20)
+        //     .Select(
+        //         r => new EventData(
+        //             Uuid.NewUuid(),
+        //             "some-event",
+        //             Encoding.UTF8.GetBytes($"{{\"id\": \"{r}\" \"value\": \"some value\"}}")
+        //         )
+        //     );
+        //
+        // await client.AppendToStreamAsync(
+        //     "some-stream",
+        //     StreamState.Any,
+        //     events
+        // );
+        //
+        // var events = client.ReadStreamAsync(
+        //     Direction.Forwards,
+        //     "some-stream",
+        //     StreamPosition.Start
+        // );
+        //
+        // await foreach (var @event in events) Console.WriteLine(Encoding.UTF8.GetString(@event.Event.Data.ToArray()));
+        //
+        // Console.WriteLine(events.FirstStreamPosition);
+        // Console.WriteLine(events.LastStreamPosition);
     }
 
     // public void Deposit(decimal amount)
