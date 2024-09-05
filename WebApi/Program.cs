@@ -5,9 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 const string connectionString = "esdb://localhost:2113?tls=false";
 var settings = EventStoreClientSettings.Create(connectionString);
-var client = new EventStoreClient(settings);
 
-builder.Services.AddSingleton(client);
+builder.Services.AddSingleton(settings);
+builder.Services.AddTransient<EventStoreRepository>();
 builder.Services.AddTransient<AccountService>();
 
 builder.Services.AddEndpointsApiExplorer();

@@ -32,8 +32,8 @@ public class AccountService(EventStoreClient client)
         return account;
     }
 
-    public async Task<Account> GetAccount(Guid id, CancellationToken cancellationToken)
-    {
+    // public async Task<Account> GetAccount(Guid id, CancellationToken cancellationToken)
+    // {
         // var events = Enumerable.Range(0, 20)
         //     .Select(
         //         r => new EventData(
@@ -59,7 +59,7 @@ public class AccountService(EventStoreClient client)
         //
         // Console.WriteLine(events.FirstStreamPosition);
         // Console.WriteLine(events.LastStreamPosition);
-    }
+    // }
 
     // public void Deposit(decimal amount)
     // {
