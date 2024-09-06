@@ -30,6 +30,14 @@ app.MapPost("/openAccount", async (
     return Results.Created($"/{account.Id}", account);
 });
 
+app.MapGet("/", async (
+    [FromServices] AccountService accountService,
+    CancellationToken cancellationToken) =>
+{
+    var accounts =  await accountService.GetAll(cancellationToken);
+    return Results.Ok(accounts);
+});
+
 app.MapGet("/{id:guid}", async (
     [FromServices] AccountService accountService, 
     Guid id, 

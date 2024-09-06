@@ -2,6 +2,16 @@ namespace WebApi;
 
 public class AccountService(EventStoreRepository repository)
 {
+    public async Task<List<Account>> GetAll(CancellationToken cancellationToken)
+    {
+        return await repository.LoadListAsync<Account>(cancellationToken);
+    }
+    
+    public async Task<Account?> GetAccount(Guid id, CancellationToken cancellationToken)
+    {
+        return await repository.LoadAsync<Account>(GetStreamName(id), cancellationToken);
+    }
+    
     public async Task<Account> OpenAccount(Guid id, CancellationToken cancellationToken)
     {
         var @event = new AccountOpened(id, DateTime.Now);
@@ -15,11 +25,6 @@ public class AccountService(EventStoreRepository repository)
         await repository.AppendEvents(GetStreamName(account.Id), @event, cancellationToken);
         
         return account;
-    }
-
-    public async Task<Account?> GetAccount(Guid id, CancellationToken cancellationToken)
-    {
-        return await repository.LoadAsync<Account>(GetStreamName(id), cancellationToken);
     }
 
     public async Task Deposit(Guid id, decimal amount, CancellationToken cancellationToken)

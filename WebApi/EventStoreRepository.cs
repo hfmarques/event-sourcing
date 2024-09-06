@@ -46,9 +46,35 @@ public class EventStoreRepository(EventStoreClientSettings settings)
         return aggregate;
     }
 
-    public async Task<List<T>> LoadListAsync<T>(string streamName) where T : IAggregate, new()
+    public async Task<List<T>> LoadListAsync<T>(CancellationToken cancellationToken) where T : IAggregate, new()
     {
-        throw new NotImplementedException();
+        var aggregates = new Dictionary<string, T>();
+        
+        var events = _client.ReadAllAsync(
+            Direction.Forwards, 
+            Position.Start, 
+            cancellationToken: cancellationToken);
+
+        await foreach (var resolvedEvent in events)
+        {
+            var streamId = resolvedEvent.Event.EventStreamId;
+            var eventType = Type.GetType(resolvedEvent.Event.EventType);
+            if (!IsRelevantEventForAggregate<T>(eventType!)) continue;
+            
+            if (!aggregates.TryGetValue(streamId, out var value))
+            {
+                value = new();
+                aggregates[streamId] = value;
+            }
+                
+            var eventData = JsonSerializer.Deserialize(
+                Encoding.UTF8.GetString(resolvedEvent.Event.Data.Span), 
+                eventType!);
+                
+            if (eventData != null) value.ApplyEvent(eventData);
+        }
+
+        return aggregates.Values.ToList();
     }
 
     public async Task DeleteStreamAsync(string streamName)
@@ -56,7 +82,7 @@ public class EventStoreRepository(EventStoreClientSettings settings)
         await _client.TombstoneAsync(streamName, StreamState.Any);
     }
 
-    private bool IsRelevantEventForAggregate<T>(Type eventType)
+    private static bool IsRelevantEventForAggregate<T>(Type eventType)
     {
         return AggregateEventMapping.TryGetValue(typeof(T), out var relevantEvents) && 
                relevantEvents.Contains(eventType);
