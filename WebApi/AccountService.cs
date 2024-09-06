@@ -22,22 +22,33 @@ public class AccountService(EventStoreRepository repository)
         return await repository.LoadAsync<Account>(GetStreamName(id), cancellationToken);
     }
 
-    // public void Deposit(decimal amount)
-    // {
-    //     ApplyEvent(new MoneyDeposited(amount, DateTime.Now));
-    // }
-    //
-    // public void Withdraw(decimal amount)
-    // {
-    //     if (Balance >= amount)
-    //     {
-    //         ApplyEvent(new MoneyWithdrawn(amount, DateTime.Now));
-    //     }
-    //     else
-    //     {
-    //         throw new InvalidOperationException("Insufficient funds");
-    //     }
-    // }
+    public async Task Deposit(Guid id, decimal amount, CancellationToken cancellationToken)
+    {
+        var account = await GetAccount(id, cancellationToken);
+        
+        ArgumentNullException.ThrowIfNull(account);
+        
+        var @event = new MoneyDeposited(amount, DateTime.Now);
+        await repository.AppendEvents(GetStreamName(id), @event, cancellationToken);
+    }
+    
+    public async Task Withdraw(Guid id, decimal amount, CancellationToken cancellationToken)
+    {
+        var account = await GetAccount(id, cancellationToken);
+        
+        ArgumentNullException.ThrowIfNull(account);
+
+        if (account.Balance >= amount)
+        {
+            var @event = new MoneyWithdrawn(amount, DateTime.Now);
+        
+            await repository.AppendEvents(GetStreamName(id), @event, cancellationToken);
+        }
+        else
+        {
+            throw new InvalidOperationException("Insufficient funds");
+        }
+    }
     
     private string GetStreamName(Guid? id = null)
     {

@@ -39,4 +39,20 @@ app.MapGet("/{id:guid}", async (
     return Results.Ok(account);
 });
 
+app.MapPut("/moneyDeposited/{id:guid}/{amount:decimal}", async (
+    Guid id, decimal amount, [FromServices] AccountService accountService, 
+    CancellationToken cancellationToken) =>
+{
+    await accountService.Deposit(id, amount, cancellationToken);
+    return Results.NoContent();
+});
+
+app.MapPut("/moneyWithdraw/{id:guid}/{amount:decimal}", async (
+    Guid id, decimal amount, [FromServices] AccountService accountService, 
+    CancellationToken cancellationToken) =>
+{
+    await accountService.Withdraw(id, amount, cancellationToken);
+    return Results.NoContent();
+});
+
 app.Run();
